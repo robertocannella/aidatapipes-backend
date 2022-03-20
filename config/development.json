@@ -1,0 +1,6 @@
+{
+    "name": "Express Temperature App - Development",
+    "mail": {
+        "host": "development-mail-server"
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "name": "Express Temperature App - Production",
+    "mail": {
+        "host": "production-mail-server"
+    }
+}

@@ -1,13 +1,31 @@
 import express from 'express';
-import { response } from 'express';
-import Joi from 'joi'
+import Joi from 'joi';
+import { Logger } from './logger.js';
+import { Authenticate } from './authenticator.js';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import config from 'config';
 
+// Configuration
+console.log('Application Name: ' + config.get('name'))
+console.log('Mail Server: ' + config.get('mail.host'))
+console.log('Mail Password: ' + config.get('mail.password'))
 
-
-const currentDate = new Date();
+// Middleware
 const app = express()
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
+app.use(express.json())  // populates req.body property
+app.use(express.urlencoded({ extended: true }))  // parses URL payloads: key=value&key=value //extened allow array and other complex objects
+app.use(express.static('public')) // serve static content from directory
+app.use(helmet()) // Helps secure your apps by setting various HTTP headers.
+
+if (app.get('env') === 'development') {
+    app.use(morgan('tiny')) // HTTP request logger.
+    console.log('Morgan Enabled')
+}
+
+// Custome Middleware
+app.use(Logger);
+app.use(Authenticate)
 
 const sensorSchema = Joi.object({
     id: Joi.number().integer(0).min(0).required(),
@@ -17,6 +35,7 @@ const temperatureSchema = Joi.object({
     timeStamp: Joi.number().integer(0).min(0).required(),
     temperatureF: Joi.number().required()
 })
+const currentDate = new Date();
 var tempReadings = [
     {
         id: 19283,
