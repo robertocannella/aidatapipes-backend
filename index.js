@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { Logger } from './middleware/logger.js';
-import { Authenticate } from './authenticator.js';
+import { Authenticate } from './middleware/authenticator.js';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import config from 'config';
@@ -10,15 +10,16 @@ import { temperatureRouter } from './routes/temperatures.js';
 import { homeRouter } from './routes/home.js';
 
 
-// Configuration
-console.log('Application Name: ' + config.get('name'))
-console.log('Mail Server: ' + config.get('mail.host'))
-console.log('Mail Password: ' + config.get('mail.password'))
+
 
 // Debug
 const debug = new debugModule('app:startup');
+// Configuration
+debug('Application Name: ' + config.get('name'))
+debug('Mail Server: ' + config.get('mail.host'))
+debug('Mail Password: ' + config.get('mail.password'))
 
-// Middleware
+// Middleware 
 const app = express();
 
 app.set('view engine', 'pug'); // HTML templating engine
