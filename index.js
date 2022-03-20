@@ -1,5 +1,4 @@
 import express from 'express';
-
 import { Logger } from './middleware/logger.js';
 import { Authenticate } from './middleware/authenticator.js';
 import helmet from 'helmet';
@@ -8,9 +7,6 @@ import config from 'config';
 import debugModule from 'debug';
 import { temperatureRouter } from './routes/temperatures.js';
 import { homeRouter } from './routes/home.js';
-
-
-
 
 // Debug
 const debug = new debugModule('app:startup');
@@ -36,7 +32,7 @@ if (app.get('env') === 'development') {
     debug('Morgan Enabled');
 }
 
-// Custome Middleware
+// Custom Middleware
 app.use(Logger);
 app.use(Authenticate)
 
