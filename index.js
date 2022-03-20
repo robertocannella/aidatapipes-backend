@@ -5,11 +5,18 @@ import { Authenticate } from './authenticator.js';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import config from 'config';
+import debugModule from 'debug';
+
+
 
 // Configuration
 console.log('Application Name: ' + config.get('name'))
 console.log('Mail Server: ' + config.get('mail.host'))
 console.log('Mail Password: ' + config.get('mail.password'))
+
+// Debug
+const debug = new debugModule('app:startup');
+
 
 // Middleware
 const app = express()
@@ -20,7 +27,7 @@ app.use(helmet()) // Helps secure your apps by setting various HTTP headers.
 
 if (app.get('env') === 'development') {
     app.use(morgan('tiny')) // HTTP request logger.
-    console.log('Morgan Enabled')
+    debug('Morgan Enabled');
 }
 
 // Custome Middleware
