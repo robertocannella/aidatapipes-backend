@@ -1,7 +1,7 @@
 import express from 'express';
-import bodyParser from 'body-parser'
-const currentDate = new Date();
+import Joi from 'joi'
 
+const currentDate = new Date();
 const app = express()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
@@ -42,29 +42,42 @@ app.get('/', (request, response) => {
     response.send(`hello world!!`);
 });
 app.get('/api/tempReadings', (request, response) => {
-    console.log('eat')
     response.send(tempReadings);
 });
+
 app.get('/api/tempReadings/:id', (request, response) => {
     const sensorReading = tempReadings.find(t => t.id === parseInt(request.params.id))
-    if (!sensorReading) //404
-        response.status(404).send('The sensor with the given ID was not found')
+    if (!sensorReading) {
+        response.status(404).send('A sensor with the given ID was not found')
+        return;
+    }
+
     response.send(sensorReading);
 });
 
 
 app.post('/api/tempReadings', (request, response) => {
-    console.log('RequestBody', request.body)
+    const schema = Joi.object({
+        id: Joi.number().integer(0).min(0).required(),
+        temperatureF: Joi.number().required()
+    })
+    const result = schema.validate(request.body)
+    if (result.error)
+        response.status(400).send(result.error.message)
+
+
     const currentId = tempReadings.find(t => t.id === parseInt(request.body.id));
+    if (!currentId)
+        response.status(404).send('A sensor with the given ID was not found')
+
     const sensorReading = {
         timeStamp: new Date(),
         temperatureF: request.body.temperatureF
     }
     currentId.data.push(sensorReading);
     response.send(sensorReading)
-    console.log(tempReadings)
 })
-app.use(express.json); //Middleware
+
 const port = process.env.PORT || 3200
 app.listen(port, () => {
     console.log(`listening on port ${port}..`)
