@@ -17,9 +17,10 @@ console.log('Mail Password: ' + config.get('mail.password'))
 // Debug
 const debug = new debugModule('app:startup');
 
-
 // Middleware
 const app = express()
+app.set('view engine', 'pug') // HTML templating engine
+app.set('views', './views')  // default path for HTML templates
 app.use(express.json())  // populates req.body property
 app.use(express.urlencoded({ extended: true }))  // parses URL payloads: key=value&key=value //extened allow array and other complex objects
 app.use(express.static('public')) // serve static content from directory
@@ -75,6 +76,12 @@ var tempReadings = [
         }]
     }]
 
+app.get('/', (req, res) => {
+    res.render('index', {
+        title: 'Temperture Express App',
+        message: 'Hello'
+    })
+});
 // Gets all sensors and their respective data
 app.get('/api/tempReadings', (request, response) => {
     response.send(tempReadings);
