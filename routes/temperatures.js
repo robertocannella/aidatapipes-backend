@@ -1,100 +1,7 @@
 import express from 'express';
-import Joi from 'joi';
-import config from 'config';
-import mongoose from 'mongoose';
-
+import { Sensor, temperatureSchema, joiTemperatureSchema } from '../models/temperature.js';
 
 const router = express.Router()
-const sensorSchema = Joi.object({
-    id: Joi.number().integer(0).min(0).required(),
-    temperatureF: Joi.number().required()
-})
-
-// create model for our objects to store in mongo db
-// compile object into mongoos
-const Sensor = mongoose.model('Sensor', new mongoose.Schema(
-    {
-        sensorId: {
-            type: Number,
-            required: true,
-            minlength: 5
-        },
-        data: {
-            tempF: Number,
-
-            timeStamp: {
-                type: Date, default: Date.now
-            }
-        },
-
-    })
-);
-// const userSchema = new Schema(
-//     { name: String },
-//     { timestamps: true }
-// );
-async function addSensorReading() {
-    // create object
-    const sensor = new Sensor({
-        sensorId: '090',
-        data: {
-            tempF: 78
-        }
-    })
-
-    const result = await sensor.save()
-        .then((res) => console.log(res))
-        .catch(err => {
-            for (let field in err.errors)
-                console.log(err.errors[field].message);
-        });
-
-}
-
-addSensorReading();
-const temperatureSchema = Joi.object({
-    timeStamp: Joi.number().integer(0).min(0).required(),
-    tempF: Joi.number().required()
-})
-const joiTemperatureSchema = Joi.object({
-    sensorId: Joi.number().integer(0).min(0).required(),
-    data: {
-        tempF: Joi.number().required()
-    }
-
-})
-const currentDate = new Date();
-var tempReadings = [
-    {
-        id: 19283,
-        data: [{
-            timeStamp: currentDate.getTime() + 5 * 60000,
-            temperatureF: 88.88
-        },
-        {
-            timeStamp: currentDate.getTime() + 10 * 60000,
-            temperatureF: 84.88
-        },
-        {
-            timeStamp: 1647748484997,
-            temperatureF: 86.89
-        }]
-    },
-    {
-        id: 1294,
-        data: [{
-            timeStamp: currentDate.getTime() + 5 * 60000,
-            temperatureF: 32.88
-        },
-        {
-            timeStamp: currentDate.getTime() + 10 * 60000,
-            temperatureF: 34.88
-        },
-        {
-            timeStamp: 1647748484997,
-            temperatureF: 45.89
-        }]
-    }]
 
 // Gets all sensors and their respective data
 router.get('/', async (request, response) => {
@@ -102,11 +9,22 @@ router.get('/', async (request, response) => {
     response.send(tempReadings);
 });
 
-// Get all temperature readings at given sensor
-router.get('/:id', async (request, response) => {
-    const id = request.params.id;
-    const sensorReading = await Sensor.find({ sensorId: id });
+//Get all temperature readings at given sensor
+router.get('/getBySensorId/:id', async (request, response) => {
+    const id = parseInt(request.params.id)
+    const sensorReading = await Sensor.find({ sensorId: id }).catch(e => console.log(e));
+
     if (sensorReading.length < 1) return response.status(404).send('A sensor with the given ID was not found')
+    response.send(sensorReading);
+});
+router.get('/:id', async (request, response) => {
+    const sensorReading = await Sensor.findById(request.params.id).catch((e) => {
+        response.status(404).send('A sensor with the given ID was not found')
+    });
+
+    if (!sensorReading)
+        response.status(404).send('A sensor with the given ID was not found')
+
     response.send(sensorReading);
 
 });
@@ -131,8 +49,6 @@ router.post('/:id', async (request, response) => {
 
 
 })
-
-// STUCK ON DATE TIME URL ENCODING 3/22/2022
 
 // UPDATE a Temperature Reading at a given sensor ID for a given timeStamp
 router.put('/:id/:timeStamp', async (request, response) => {
@@ -163,8 +79,7 @@ router.delete('/delete-many/:sensorId', async (request, response) => {
     const dbResponse = await Sensor.deleteMany({ sensorId: request.params.sensorId })
     if (dbResponse.deletedCount === 0) return response.status(404).send('A sensor with the given ID was not found');
 
-
     response.send('Data deleted');
 
 })
-export { router as temperatureRouter }
+export { router as temperatureRouter } 

@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import config from 'config';
 import debugModule from 'debug';
 import { temperatureRouter } from './routes/temperatures.js';
+import { customerRouter } from './routes/customers.js';
 import { homeRouter } from './routes/home.js';
 import mongoose from 'mongoose';
 
@@ -52,6 +53,8 @@ app.use(express.urlencoded({ extended: true })); // parses URL payloads: key=val
 app.use(express.static('public')); // serve static content from directory
 app.use(helmet()); // Helps secure your apps by setting various HTTP headers.
 app.use('/api/tempReadings', temperatureRouter);
+app.use('/api/customers', customerRouter);
+
 app.use('/', homeRouter);
 
 
