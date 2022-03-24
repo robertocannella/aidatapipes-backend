@@ -7,7 +7,34 @@ import config from 'config';
 import debugModule from 'debug';
 import { temperatureRouter } from './routes/temperatures.js';
 import { homeRouter } from './routes/home.js';
+import mongoose from 'mongoose';
 
+//Database setup
+const DATABASEUSERNAME = config.get('db.dbUser');
+const DATABASEPASSWORD = config.get('db.dbPass');
+const DATABASEHOST = config.get('db.dbHost');
+const DATABASEPORT = config.get('db.dbPort');
+const DATABASENAME = 'datapipes';
+
+// connect to mongodb
+const connect = async () => {
+    let url = `mongodb://${DATABASEHOST}:${DATABASEPORT}/${DATABASENAME}`;
+
+    try {
+
+        let client = await mongoose.connect(url, {
+            authSource: "admin",
+            user: DATABASEUSERNAME,
+            pass: DATABASEPASSWORD
+        });
+        console.log("Database is connected!");
+    } catch (error) {
+        console.log(error.stack);
+        process.exit(1);
+    }
+}
+
+connect()
 // Debug
 const debug = new debugModule('app:startup');
 // Configuration
@@ -27,6 +54,7 @@ app.use(helmet()); // Helps secure your apps by setting various HTTP headers.
 app.use('/api/tempReadings', temperatureRouter);
 app.use('/', homeRouter);
 
+
 if (app.get('env') === 'development') {
     app.use(morgan('tiny')) // HTTP request logger.
     debug('Morgan Enabled');
@@ -34,11 +62,11 @@ if (app.get('env') === 'development') {
 
 // Custom Middleware
 app.use(Logger);
-app.use(Authenticate)
-
+app.use(Authenticate);
 
 
 const port = process.env.PORT || 3200
 app.listen(port, () => {
     console.log(`listening on port ${port}..`)
 })
+
