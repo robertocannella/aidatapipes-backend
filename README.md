@@ -11,10 +11,10 @@ Follow these instructions when cloning via VS CODE
 
 run the following commands inside project folder as sudo
 ```
+// not using the ci args will repack package-lock.json
 npm ci  
  
 ```
-not using the ci args will repack package-lock.json
 
 ```
 run npm i -g nodemon
