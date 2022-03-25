@@ -14,7 +14,13 @@ router.get('/getBySensorId/:id', async (request, response) => {
     const id = parseInt(request.params.id)
     const sensorReading = await Sensor.find({ sensorId: id }).catch(e => console.log(e));
 
-    if (sensorReading.length < 1) return response.status(404).send('A sensor with the given ID was not found')
+    //if (sensorReading.length < 1) return response.status(404).send('A sensor with the given ID was not found')
+
+    if (sensorReading.length < 1) {
+        response.status(404).send('A sensor with the given ID was not found');
+        // stop further execution in this callback
+        return;
+    }
     response.send(sensorReading);
 });
 router.get('/:id', async (request, response) => {
