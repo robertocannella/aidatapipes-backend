@@ -21,19 +21,16 @@ const DATABASENAME = 'datapipes';
 const connect = async () => {
     let url = `mongodb://${DATABASEHOST}:${DATABASEPORT}/${DATABASENAME}`;
 
-    try {
-
-        let client = await mongoose.connect(url, {
-
-            authSource: "admin",
-            user: DATABASEUSERNAME,
-            pass: DATABASEPASSWORD
-        });
-        console.log("Database is connected!");
-    } catch (error) {
-        console.log(error.stack);
-        process.exit(1);
-    };
+    mongoose.connect(url, {
+        serverSelectionTimeoutMS: 5000,
+        // useNewUrlParser: true,
+        // useUnifiedTopology: false,
+        authSource: "admin",
+        user: DATABASEUSERNAME,
+        pass: DATABASEPASSWORD
+    }).then(() => { console.log("Database is connected!") }).catch((error) => {
+        console.log(error);
+    })
 }
 
 connect()
