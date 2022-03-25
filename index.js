@@ -24,6 +24,7 @@ const connect = async () => {
     try {
 
         let client = await mongoose.connect(url, {
+
             authSource: "admin",
             user: DATABASEUSERNAME,
             pass: DATABASEPASSWORD

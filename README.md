@@ -20,7 +20,8 @@ npm ci
 run npm i -g nodemon
 ```
 
-### Mac M1:
+## Mac M1:
+Be sure to have xcode installed:
 ```
 xcode-select --install
 ```
