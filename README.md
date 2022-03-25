@@ -1,5 +1,7 @@
 # node-tut
 
+
+
 ## Application Setup
 
 Follow these instructions when pulling a branch via VS CODE
@@ -9,7 +11,7 @@ Follow these instructions when pulling a branch via VS CODE
 
 run the following commands inside project folder as sudo
 ```
-npm i
+npm ci # not using the ci args will repack package-lock.json
 run npm i -g nodemon
 ```
 
