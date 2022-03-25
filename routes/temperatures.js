@@ -57,11 +57,9 @@ router.post('/:id', async (request, response) => {
 })
 
 // UPDATE a Temperature Reading at a given sensor ID for a given timeStamp
-router.put('/:id/:timeStamp', async (request, response) => {
-    const timeStamp = new Date(parseInt(request.params.timeStamp));
-    //console.log(timeStamp)
+router.put('/:id', async (request, response) => {
     const sensorReading = await Sensor.findByIdAndUpdate(request.params.id, { data: { tempF: request.body.tempF } }, {
-        new: true // return objet
+        new: true // return object
     })
     if (!sensorReading) return response.status(404).send('A sensor with the given ID was not found');
 
