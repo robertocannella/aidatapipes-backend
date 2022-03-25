@@ -4,18 +4,23 @@
 
 ## Application Setup
 
-Follow these instructions when pulling a branch via VS CODE
+Follow these instructions when cloning via VS CODE
 
 * make project directory
 * open project folder in VS CODE
 
 run the following commands inside project folder as sudo
 ```
-npm ci # not using the ci args will repack package-lock.json
+npm ci  
+ 
+```
+not using the ci args will repack package-lock.json
+
+```
 run npm i -g nodemon
 ```
 
-Mac:
+### Mac M1:
 ```
 xcode-select --install
 ```
