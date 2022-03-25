@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import Joi from 'joi';
-import pkg from 'joi-password-complexity';
 
 
 

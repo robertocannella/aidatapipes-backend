@@ -1,9 +1,14 @@
 import express from 'express';
 import { User, userValidationSchema } from '../models/user.js';
 import _ from 'lodash';
+import bcrypt from 'bcrypt'
 
 const router = express.Router()
-
+async function run() {
+    const salt = await bcrypt.genSalt(10)
+    console.log(salt)
+}
+run();
 // POST Add user to database
 router.post('/', async (req, res) => {
     // Validate input using JOI
@@ -23,6 +28,8 @@ router.post('/', async (req, res) => {
             'password'
         ]
     ))
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
 
     // save to db
     await user.save()
