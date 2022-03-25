@@ -3,7 +3,7 @@ import { Customer, customerSchema } from '../models/customer.js';
 
 const router = express.Router()
 
-// Gets all sensors and their respective data
+// Gets all customers
 router.get('/', async (request, response) => {
     const customer = await Customer.find().sort('nameLast');
     response.send(customer);
@@ -20,7 +20,7 @@ router.get('/:id', async (request, response) => {
     response.send(customer);
 
 });
-// Adds a temperature reading at a given sensor id
+// Adds a customer
 router.post('/', async (request, response) => {
     const { error } = customerSchema.validate(request.body)
     if (error) return response.status(400).send(error.message);
@@ -54,7 +54,7 @@ router.put('/:id', async (request, response) => {
     if (error) return response.status(400).send(error.details[0].message);
     response.send(customer);
 })
-// DELETE all sensor data at a given id
+// DELETE customer by id
 router.delete('/:id', async (request, response) => {
 
     const customer = await Customer.findByIdAndRemove(request.params.id)
@@ -62,6 +62,5 @@ router.delete('/:id', async (request, response) => {
 
     response.send(customer)
 })
-
 
 export { router as customerRouter }

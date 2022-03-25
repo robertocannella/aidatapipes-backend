@@ -8,6 +8,7 @@ import debugModule from 'debug';
 import { temperatureRouter } from './routes/temperatures.js';
 import { customerRouter } from './routes/customers.js';
 import { homeRouter } from './routes/home.js';
+import { userRouter } from './routes/users.js';
 import mongoose from 'mongoose';
 
 //Database setup
@@ -52,6 +53,7 @@ app.use(express.static('public')); // serve static content from directory
 app.use(helmet()); // Helps secure your apps by setting various HTTP headers.
 app.use('/api/tempReadings', temperatureRouter);
 app.use('/api/customers', customerRouter);
+app.use('/api/users', userRouter);
 
 app.use('/', homeRouter);
 

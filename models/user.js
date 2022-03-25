@@ -1,13 +1,24 @@
 import mongoose from 'mongoose';
 import Joi from 'joi';
+import pkg from 'joi-password-complexity';
 
 
 
 const userValidationSchema = Joi.object({
-    nameFirst: Joi.string().min(5).max(50).required(),
-    nameLast: Joi.string().min(5).max(50).required(),
-    email: Joi.string().min(5).required(255).required().email(),
-    email: Joi.string().min(5).required(255).required()
+    nameFirst: Joi.string().min(2).max(50).required(),
+    nameLast: Joi.string().min(2).max(50).required(),
+    email1: Joi.string().min(5).required(255).required().email(),
+    password: Joi.string()
+        .min(8)
+        .max(255)
+        .regex(/^(?=\S*[a-z])(?=\S*[A-Z])(?=\S*\d)(?=\S*[^\w\s])\S{8,30}$/)
+        .required()
+        .label("Password")
+        .messages({
+            "string.min": "Password must have at least 8 characters",
+            "object.regex": "Must have at least 8 characters",
+            "string.pattern.base": "Failed password requirement check"
+        })
 
 })
 
