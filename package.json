@@ -10,12 +10,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "config": "^3.3.7",
     "debug": "^4.3.4",
     "express": "^4.17.3",
     "git": "^0.1.5",
     "helmet": "^5.0.2",
     "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "mongoose": "^6.2.7",
     "morgan": "^1.10.0",
     "pug": "^3.0.2"
