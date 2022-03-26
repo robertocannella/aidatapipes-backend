@@ -8,5 +8,6 @@
         "dbHost": "db_host",
         "dbPort": "db_port",
         "dbName": "db_name"
-    }
+    },
+    "jwtPrivateKey": "app_jwtPrivateKey"
 }

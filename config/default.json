@@ -1,3 +1,4 @@
 {
-    "name": "Express Temperature App"
+    "name": "Express Temperature App",
+    "jwtPrivateKey": ""
 }

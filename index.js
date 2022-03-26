@@ -9,6 +9,7 @@ import { temperatureRouter } from './routes/temperatures.js';
 import { customerRouter } from './routes/customers.js';
 import { homeRouter } from './routes/home.js';
 import { userRouter } from './routes/users.js';
+import { authRouter } from './routes/auth.js'
 import mongoose from 'mongoose';
 
 //Database setup
@@ -18,7 +19,13 @@ const DATABASEHOST = config.get('db.dbHost');
 const DATABASEPORT = config.get('db.dbPort');
 const DATABASENAME = 'datapipes';
 
-// connect to mongodb
+// Verify jwtPrivateKey ENV set
+if (!config.get('jwtPrivateKey')) {
+    console.error('FATAL ERROR: jwtPrivateKey not defined');
+    process.exit(1);
+}
+
+// Connect to mongodb
 const connect = async () => {
     let url = `mongodb://${DATABASEHOST}:${DATABASEPORT}/${DATABASENAME}`;
 
@@ -54,7 +61,7 @@ app.use(helmet()); // Helps secure your apps by setting various HTTP headers.
 app.use('/api/tempReadings', temperatureRouter);
 app.use('/api/customers', customerRouter);
 app.use('/api/users', userRouter);
-
+app.use('/api/auth', authRouter)
 app.use('/', homeRouter);
 
 

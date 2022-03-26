@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import Joi from 'joi';
+import jsonwebtoken from 'jsonwebtoken';
+import config from 'config';
 
 
 
@@ -23,7 +25,7 @@ const userValidationSchema = Joi.object({
 
 // create model for our objects to store in mongodb
 // compile object into mongoose
-const User = mongoose.model('User', new mongoose.Schema(
+const userSchema = new mongoose.Schema(
     {
         nameFirst: {
             type: String,
@@ -52,7 +54,10 @@ const User = mongoose.model('User', new mongoose.Schema(
         }
 
     })
-);
+userSchema.methods.generateAuthToken = function () {
+    return jsonwebtoken.sign({ _id: this._id }, config.get('jwtPrivateKey'));
+}
+const User = mongoose.model('User', userSchema);
 
 export { User as User }
 export { userValidationSchema as userValidationSchema }

@@ -1,5 +1,6 @@
 import express from 'express';
 import { Customer, customerSchema } from '../models/customer.js';
+import { Authenticate } from '../middleware/authenticator.js';
 
 const router = express.Router()
 
@@ -21,7 +22,7 @@ router.get('/:id', async (request, response) => {
 
 });
 // Adds a customer
-router.post('/', async (request, response) => {
+router.post('/', Authenticate, async (request, response) => {
     const { error } = customerSchema.validate(request.body)
     if (error) return response.status(400).send(error.message);
 
@@ -31,6 +32,7 @@ router.post('/', async (request, response) => {
         nameLast: request.body.nameLast,
         numberHome: request.body.numberHome
     });
+
     customer = await customer.save();
 
     response.send(customer)
@@ -38,7 +40,7 @@ router.post('/', async (request, response) => {
 
 // UPDATE a CUSTOMER
 
-router.put('/:id', async (request, response) => {
+router.put('/:id', Authenticate, async (request, response) => {
 
 
     const customer = await Customer.findByIdAndUpdate(request.params.id,
@@ -55,7 +57,7 @@ router.put('/:id', async (request, response) => {
     response.send(customer);
 })
 // DELETE customer by id
-router.delete('/:id', async (request, response) => {
+router.delete('/:id', Authenticate, async (request, response) => {
 
     const customer = await Customer.findByIdAndRemove(request.params.id)
     if (!customer) return response.status(404).send('A customer with the given ID was not found');
