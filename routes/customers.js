@@ -1,6 +1,7 @@
 import express from 'express';
 import { Customer, customerSchema } from '../models/customer.js';
 import { Authenticate } from '../middleware/authenticator.js';
+import { IsAdmin } from '../middleware/admin.js';
 
 const router = express.Router()
 
@@ -57,7 +58,7 @@ router.put('/:id', Authenticate, async (request, response) => {
     response.send(customer);
 })
 // DELETE customer by id
-router.delete('/:id', Authenticate, async (request, response) => {
+router.delete('/:id', [Authenticate, IsAdmin], async (request, response) => {
 
     const customer = await Customer.findByIdAndRemove(request.params.id)
     if (!customer) return response.status(404).send('A customer with the given ID was not found');

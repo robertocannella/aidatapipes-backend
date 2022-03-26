@@ -35,4 +35,9 @@ router.post('/', Authenticate, async (req, res) => {
     res.header('x-auth-token', token).send(_.pick(user, ['nameFirst', 'nameLast', 'email1']))
 });
 
+// GET  //AUTHORIZATION
+router.get('/me', Authenticate, async (req, res) => {
+    const user = await User.findById(req.user._id).select('-password') // prevent sending of password
+    res.send(user)
+})
 export { router as userRouter }
