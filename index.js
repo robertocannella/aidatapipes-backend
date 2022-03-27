@@ -24,6 +24,7 @@ if (!config.get('jwtPrivateKey')) {
     process.exit(1);
 }
 
+
 // Debug
 const debug = new debugModule('app:startup');
 debug('Application Name: ' + config.get('name'))
