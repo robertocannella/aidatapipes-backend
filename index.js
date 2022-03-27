@@ -73,19 +73,26 @@ const logger = winston.createLogger({
             options: { useUnifiedTopology: true, }
         }),
         new winston.transports.File({ filename: 'quick-start-error.log', level: 'error' }),
-        new winston.transports.File({ filename: 'quick-start-combined.log' })
+        new winston.transports.File({ filename: 'quick-start-combined.log' }),
+        new winston.transports.Console({ colorize: true, level: 'info' })
     ]
 });
 // Handle uncaught exceptions durring synchronous calls
 process.on('uncaughtException', (ex) => {
     logger.error(ex.message, ex);
-    process.exit(1);
+    // Logger must finish prior to exiting
+    logger.on('finish', () => {
+        process.exit(1);
+    });
 })
 // Sychronous Error
-// throw new Error('something failed during startup');
+//throw new Error('something failed during startup');
 process.on('unhandledRejection', (ex) => {
     logger.error(ex.message, ex);
-    process.exit(1);
+    // Logger must finish prior to exiting
+    logger.on('finish', () => {
+        process.exit(1);
+    });
 })
 // Asynchronous Error
 // const p = Promise.reject(new Error('Something failed miserably!'));
