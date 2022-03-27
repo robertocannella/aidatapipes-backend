@@ -38,5 +38,5 @@ if (app.get('env') === 'development') {
 
 const port = process.env.PORT || 3200
 app.listen(port, () => {
-    console.log(`listening on port ${port}..`)
+    console.log(`listening on port ${port}...${new Date()}`)
 })
