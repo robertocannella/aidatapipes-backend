@@ -29,13 +29,17 @@ Install Home Brew
 ```
 brew tap mongodb/brew
 brew install mongodb-community@5.0
+// start
 brew services start mongodb-community@5.0
+// stop
+brew services stop mongodb-community@5.0
 
 ```
-### Start
+### Start MongoDB
 ```
 mongod --config /opt/homebrew/etc/mongod.conf --fork
 ```
+
 
 ### Authentication
 ```

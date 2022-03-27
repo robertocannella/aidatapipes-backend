@@ -1,5 +1,6 @@
 import express from 'express';
 import { Sensor, temperatureSchema, joiTemperatureSchema } from '../models/temperature.js';
+//import asyncMiddleware from '../middleware/async.js'  //using express-aysnc-errors
 
 const router = express.Router()
 
@@ -52,7 +53,6 @@ router.post('/:id', async (request, response) => {
     sensor = await sensor.save();
 
     response.send(sensor)
-
 
 })
 
