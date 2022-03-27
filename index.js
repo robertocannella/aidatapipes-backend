@@ -2,21 +2,17 @@ import 'express-async-errors';                                  // async middlew
 import express from 'express';                                  // main route server
 //import { Logger } from './middleware/logger.js';              // custom logger (not used)
 //import { Authenticate } from './middleware/authenticator.js'; // custom auth (not used)
-import helmet from 'helmet';                                    // HTTP Protection
 import morgan from 'morgan';                                    // HTTP request logger.
 import config from 'config';                                    // Env Manager
 import debugModule from 'debug';                                // debug options
 import mongoose from 'mongoose';                                // Mongo DB CRUD tool
-import error from './middleware/error.js';                      // Custom Error Middleware
 import * as winston from 'winston';                             // Logging
 import 'winston-mongodb';                                       // DB Transport for Winston
+import routes from './startup/route.js';                        // Routes module
 
-/// ROUTES
-import { temperatureRouter } from './routes/temperatures.js';
-import { customerRouter } from './routes/customers.js';
-import { homeRouter } from './routes/home.js';
-import { userRouter } from './routes/users.js';
-import { authRouter } from './routes/auth.js';
+// SETUP ROUTES 
+const app = express(); // <-- Instance of Express
+routes(app);    // <-- Send this instance of express to routes module
 
 
 // Verify jwtPrivateKey ENV set
@@ -98,20 +94,8 @@ debug('Application Name: ' + config.get('name'))
 debug('Mail Server: ' + config.get('mail.host'))
 debug('Mail Password: ' + config.get('mail.password'))
 
-// Middleware 
-const app = express();
-app.set('view engine', 'pug'); // HTML templating engine
-app.set('views', './views');  // default path for HTML templates
-app.use(express.json());  // populates req.body property
-app.use(express.urlencoded({ extended: true })); // parses URL payloads: key=value&key=value //extened allow array and other complex objects
-app.use(express.static('public')); // serve static content from directory
-app.use(helmet()); // Helps secure your apps by setting various HTTP headers.
-app.use('/api/tempReadings', temperatureRouter);
-app.use('/api/customers', customerRouter);
-app.use('/api/users', userRouter);
-app.use('/api/auth', authRouter)
-app.use('/', homeRouter);
-app.use(error)
+
+
 
 if (app.get('env') === 'development') {
     app.use(morgan('tiny')) // HTTP request logger.
