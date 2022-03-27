@@ -7,7 +7,7 @@ import { Authenticate } from '../middleware/authenticator.js';
 const router = express.Router()
 
 // POST Add user to database
-router.post('/', Authenticate, async (req, res) => {
+router.post('/', async (req, res) => {
     // Validate input using JOI
     const { error } = userValidationSchema.validate(req.body);
     if (error) return res.status(400).send(error.message);

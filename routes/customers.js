@@ -27,7 +27,6 @@ router.post('/', Authenticate, async (request, response) => {
     const { error } = customerSchema.validate(request.body)
     if (error) return response.status(400).send(error.message);
 
-
     let customer = new Customer({
         nameFirst: request.body.nameFirst,
         nameLast: request.body.nameLast,
