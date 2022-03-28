@@ -1,7 +1,9 @@
 import express from 'express';
-import { Customer, customerSchema } from '../models/customer.js';
+import { Customer, customerSchema, customerIdSchema } from '../models/customer.js';
 import { Authenticate } from '../middleware/authenticator.js';
 import { IsAdmin } from '../middleware/admin.js';
+
+
 
 const router = express.Router()
 
@@ -12,12 +14,13 @@ router.get('/', async (request, response) => {
 });
 // Get customer by id
 router.get('/:id', async (request, response) => {
-    const customer = await Customer.findById(request.params.id).catch((e) => {
-        response.status(404).send('A customer with the given ID was not found')
-    });
+    const { error } = customerIdSchema.validate(request.params)
+    if (error) return response.status(400).send(error.message);
+
+    const customer = await Customer.findById(request.params.id)
 
     if (!customer)
-        response.status(404).send('A customer with the given ID was not found')
+        return response.status(404).send('A customer with the given ID was not found')
 
     response.send(customer);
 
@@ -42,6 +45,7 @@ router.post('/', Authenticate, async (request, response) => {
 
 router.put('/:id', Authenticate, async (request, response) => {
 
+    // Try using $set operator from mongoose.
 
     const customer = await Customer.findByIdAndUpdate(request.params.id,
         {
@@ -58,6 +62,9 @@ router.put('/:id', Authenticate, async (request, response) => {
 })
 // DELETE customer by id
 router.delete('/:id', [Authenticate, IsAdmin], async (request, response) => {
+    const { error } = customerIdSchema.validate(request.params)
+    if (error) return response.status(400).send(error.message);
+
 
     const customer = await Customer.findByIdAndRemove(request.params.id)
     if (!customer) return response.status(404).send('A customer with the given ID was not found');
