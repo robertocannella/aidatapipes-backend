@@ -1,42 +1,27 @@
-import 'express-async-errors';                                  // async middleware for handling HTTP async
 import express from 'express';                                  // main route server
-//import { Logger } from './middleware/logger.js';              // custom logger (not used)
-//import { Authenticate } from './middleware/authenticator.js'; // custom auth (not used)
 import morgan from 'morgan';                                    // HTTP request logger.
-import config from 'config';                                    // Env Manager
-import debugModule from 'debug';                                // debug options
-import 'winston-mongodb';                                       // DB Transport for Winston
 import routes from './startup/route.js';                        // Routes module
 import db from './startup/db.js';                               // Db
-import logger from './startup/logging.js';                      // Logging
+import * as winston from './startup/logging.js';                      // Logging
+import conf from './startup/config.js';                         // Configuration
+import * as dbug from './startup/debug.js';                         // Debug 
+import validation from './startup/validation.js';               // Joi Validation
 
-
-// SETUP ROUTES 
+// STARTUP 
 const app = express(); // <-- Instance of Express
+winston.default();
 routes(app);    // <-- Send this instance of express to routes module
 db();
-logger();
-
-
-// Verify jwtPrivateKey ENV set
-if (!config.get('jwtPrivateKey')) {
-    console.error('FATAL ERROR: jwtPrivateKey not defined');
-    process.exit(1);
-}
-
-
-// Debug
-const debug = new debugModule('app:startup');
-debug('Application Name: ' + config.get('name'))
-debug('Mail Server: ' + config.get('mail.host'))
-debug('Mail Password: ' + config.get('mail.password'))
+conf();
+dbug.default();
 
 if (app.get('env') === 'development') {
     app.use(morgan('tiny')) // HTTP request logger.
-    debug('Morgan Enabled');
+    dbug.debug('Morgan Enabled');
 }
 
 const port = process.env.PORT || 3200
 app.listen(port, () => {
-    console.log(`listening on port ${port}...${new Date()}`)
-})
+    winston.fileLogger.info(`listening on port ${port}...${new Date()}}`)
+    dbug.debug(`listening on port ${port}...${new Date()}`)
+});

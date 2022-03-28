@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import config from "config";
+import * as winston from "../startup/logging.js"
+import * as dbug from '../startup/debug.js';                         // Debug 
 
 //Database setup
 export const DATABASEUSERNAME = config.get('db.dbUser');
@@ -19,9 +21,8 @@ export default async () => {
         authSource: "admin",
         user: DATABASEUSERNAME,
         pass: DATABASEPASSWORD
+    }).then(() => {
+        dbug.debug(`Database is connected ${new Date()}`),
+            winston.dbLogger.info(`Database is connected ${new Date()}`)
     })
-        .then(() => { console.log("Database is connected!") })
-        .catch((error) => {
-            console.log(error);
-        })
 }
