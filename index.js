@@ -6,9 +6,16 @@ import * as winston from './startup/logging.js';                      // Logging
 import conf from './startup/config.js';                         // Configuration
 import * as dbug from './startup/debug.js';                         // Debug 
 import validation from './startup/validation.js';               // Joi Validation
+import cors from 'cors';
+
 
 // STARTUP 
 const app = express(); // <-- Instance of Express
+app.use(cors()); // Allow Cross Origin Resource Sharing from all urls
+
+// app.use(cors({
+//     origin: 'http://localhost:4200/'
+// }));
 winston.default();
 routes(app);    // <-- Send this instance of express to routes module
 db();
