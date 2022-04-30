@@ -2,7 +2,18 @@ import mongoose from "mongoose";
 import Joi from "joi";
 
 // create model for our objects to store in mongo db
-// compile object into mongoos
+// compile object into mongoose
+const OutdoorTemp = mongoose.model('OutdoorTemp', new mongoose.Schema(
+    {
+        sensorId: {
+            type: Number,
+            required: true,
+            minlength: 5
+        },
+        degreesFahrenheit: Number,
+        timeStamp: Number
+
+    }))
 const Sensor = mongoose.model('Sensor', new mongoose.Schema(
     {
         sensorId: {
@@ -33,4 +44,4 @@ const joiTemperatureSchema = Joi.object({
 
 })
 
-export { Sensor, temperatureSchema, joiTemperatureSchema }
+export { Sensor, OutdoorTemp, temperatureSchema, joiTemperatureSchema }

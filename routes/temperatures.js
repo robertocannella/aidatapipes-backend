@@ -1,5 +1,5 @@
 import express from 'express';
-import { Sensor, temperatureSchema, joiTemperatureSchema } from '../models/temperature.js';
+import { Sensor, OutdoorTemp, temperatureSchema, joiTemperatureSchema } from '../models/temperature.js';
 //import asyncMiddleware from '../middleware/async.js'  //using express-aysnc-errors
 
 const router = express.Router()
@@ -9,7 +9,11 @@ router.get('/', async (request, response) => {
     const tempReadings = await Sensor.find().sort('sensorId');
     response.send(tempReadings);
 });
-
+//Get current outdoor temperature
+router.get('/getCurrentOutdoorTemp', async (request, response) => {
+    const currentOutdoorTemp = await OutdoorTemp.findOne().sort({ timeStamp: -1 });
+    response.send(currentOutdoorTemp);
+})
 //Get all temperature readings at given sensor
 router.get('/getBySensorId/:id', async (request, response) => {
     const id = parseInt(request.params.id)
