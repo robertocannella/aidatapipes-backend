@@ -2,3 +2,10 @@ node_modules/
 quick-start-combined.log
 quick-start-error.log
 logs/
+cert/key.pem
+cert/cert.pem
+cert/csr.pem
+cert/cert.old.pem
+cert/7f8ecd49099d0d57.pem
+cert/csr.old.pem
+cert/key.old.pem
