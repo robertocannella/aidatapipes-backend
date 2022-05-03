@@ -14,6 +14,29 @@ router.get('/getCurrentOutdoorTemp', async (request, response) => {
     const currentOutdoorTemp = await OutdoorTemp.findOne().sort({ timeStamp: -1 });
     response.send(currentOutdoorTemp);
 })
+
+// Handle No Paramter for route
+router.get('/getLastXOutdoorTemps/', async (request, response) => {
+    return response.status(400).send("No 'daysAgo' paramter provided.")
+})
+// Get Last X days of outdoor temperatures
+router.get('/getLastXOutdoorTemps/:daysAgo', async (request, response) => {
+    // read value from url 
+    const x = parseInt(request.params.daysAgo)
+    if (x < 1) return response.status(400).send("Invalid 'daysAgo' parameter");
+
+    // set X days ago
+    // get current day
+    var d = new Date();
+
+    // calculates days ago: 
+    // current date's milliseconds - 1,000 ms * 60 s * 60 mins * 24 hrs * (# of days beyond one to go back)
+    const daysAgo = d - 1000 * 60 * 60 * 24 * (x)
+
+    // query mongo db and return results 
+    const getLastXOutdoorTemps = await OutdoorTemp.find({ timeStamp: { $gt: daysAgo } }).sort({ timeStamp: -1 })
+    response.send(getLastXOutdoorTemps);
+})
 //Get all temperature readings at given sensor
 router.get('/getBySensorId/:id', async (request, response) => {
     const id = parseInt(request.params.id)
