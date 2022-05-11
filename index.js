@@ -41,10 +41,10 @@ sslServer.listen(3443, () => {
     console.log('Secure Servier on port 3443')
 })
 
-const port = process.env.PORT || 3200
-app.listen(port, () => {
-    winston.fileLogger.info(`listening on port ${port}...${new Date()}}`)
-    dbug.debug(`listening on port ${port}...${new Date()}`)
-});
+// const port = process.env.PORT || 3200
+// app.listen(port, () => {
+//     winston.fileLogger.info(`listening on port ${port}...${new Date()}}`)
+//     dbug.debug(`listening on port ${port}...${new Date()}`)
+// });
 
 
