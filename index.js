@@ -37,7 +37,7 @@ const sslServer = https.createServer({
     cert: fs.readFileSync('/etc/letsencrypt/live/dbs.aidatapipes.com/fullchain.pem', 'utf8'),
 }, app)
 
-sslServer.listen(3443, () => {
+sslServer.listen(3443, "0.0.0.0", () => {
     console.log('Secure Servier on port 3443')
 })
 

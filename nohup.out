@@ -1,0 +1,17 @@
+[33m[nodemon] 2.0.15[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,json[39m
+[32m[nodemon] starting `node index.js`[39m
+events.js:377
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: EBADF: bad file descriptor, read
+Emitted 'error' event on ReadStream instance at:
+    at internal/fs/streams.js:173:14
+    at FSReqCallback.wrapper [as oncomplete] (fs.js:562:5) {
+  errno: -9,
+  code: 'EBADF',
+  syscall: 'read'
+}

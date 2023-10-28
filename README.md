@@ -64,3 +64,10 @@ db.createUser(
 
 https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/
 
+### Renwew Certificate
+roberto@ubuntuserver:/etc/letsencrypt$ 
+
+`sudo certbot certonly –force-renew -d dbs.aidatapipes.com`
+
+
+

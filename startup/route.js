@@ -9,7 +9,7 @@ import { customerRouter } from '../routes/customers.js';
 import { homeRouter } from '../routes/home.js';
 import { userRouter } from '../routes/users.js';
 import { authRouter } from '../routes/auth.js';
-
+import { systemRouter } from '../routes/system.js';
 
 export default function (app) {
     // Routes and Middleware 
@@ -20,6 +20,7 @@ export default function (app) {
     app.use(express.urlencoded({ extended: true })); // parses URL payloads: key=value&key=value //extened allow array and other complex objects
     app.use(express.static('public')); // serve static content from directory
     app.use(helmet()); // Helps secure your apps by setting various HTTP headers.
+    app.use('/api/systems', systemRouter);
     app.use('/api/tempReadings', temperatureRouter);
     app.use('/api/customers', customerRouter);
     app.use('/api/users', userRouter);

@@ -18,7 +18,13 @@ export const dbLogger = winston.createLogger({
         new winston.transports.MongoDB({
             level: 'info',
             db: `mongodb://${db.DATABASEUSERNAME}:${db.DATABASEPASSWORD}@${db.DATABASEHOST}:${db.DATABASEPORT}/${db.DATABASENAME}`,
-            options: { useUnifiedTopology: true, authSource: "admin" }
+            options: {
+                // ORIGINAL LOGGER SETTINGS ************
+                useUnifiedTopology: true,
+                authSource: "admin",
+                // *************************************
+
+            }
         })
     ]
 });
