@@ -25,10 +25,10 @@ and validated independently.
 
 **Purpose**: Get the hook toolchain installed and scaffolded
 
-- [ ] T001 Add `husky`, `@commitlint/cli`, and `@commitlint/config-conventional`
+- [X] T001 Add `husky`, `@commitlint/cli`, and `@commitlint/config-conventional`
       as devDependencies and add a `"prepare": "husky"` script, in
       `package.json`
-- [ ] T002 Run `npx husky init` to scaffold the `.husky/` directory
+- [X] T002 Run `npx husky init` to scaffold the `.husky/` directory
 
 ---
 
@@ -38,7 +38,7 @@ and validated independently.
 
 **⚠️ CRITICAL**: Must be complete before Phase 3/4/5
 
-- [ ] T003 Create `commitlint.config.js` at the repo root: extend
+- [X] T003 Create `commitlint.config.js` at the repo root: extend
       `@commitlint/config-conventional`, set the allowed `type-enum` to
       `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `style`, `perf`,
       `build`, `ci` (FR-002), and add an `ignores` entry so
@@ -59,10 +59,10 @@ commands in `specs/001-commit-convention-tooling/quickstart.md`
 
 ### Implementation for User Story 1
 
-- [ ] T004 [US1] Create `.husky/commit-msg` running
+- [X] T004 [US1] Create `.husky/commit-msg` running
       `npx --no -- commitlint --edit "$1"`
-- [ ] T005 [US1] Make `.husky/commit-msg` executable (`chmod +x .husky/commit-msg`)
-- [ ] T006 [US1] Run the commit-message scenarios from
+- [X] T005 [US1] Make `.husky/commit-msg` executable (`chmod +x .husky/commit-msg`)
+- [X] T006 [US1] Run the commit-message scenarios from
       `specs/001-commit-convention-tooling/quickstart.md` and confirm each
       matches its expected outcome (FR-001, FR-003)
 
@@ -81,15 +81,15 @@ in `specs/001-commit-convention-tooling/quickstart.md`
 
 ### Implementation for User Story 2
 
-- [ ] T007 [US2] Create `.husky/pre-commit`: read the current branch with
+- [X] T007 [US2] Create `.husky/pre-commit`: read the current branch with
       `git rev-parse --abbrev-ref HEAD`; if it is `main`, exit 0
       immediately (FR-005); otherwise test it against
       `^(feat|fix|docs|chore|refactor|test|style|perf|build|ci)/[a-z0-9-]+$`
       and exit non-zero with a clear message naming the expected pattern if
       it doesn't match (FR-004)
-- [ ] T008 [US2] Make `.husky/pre-commit` executable
+- [X] T008 [US2] Make `.husky/pre-commit` executable
       (`chmod +x .husky/pre-commit`)
-- [ ] T009 [US2] Run the branch-name scenarios from
+- [X] T009 [US2] Run the branch-name scenarios from
       `specs/001-commit-convention-tooling/quickstart.md` and confirm each
       matches its expected outcome, including the `main` exemption
 
@@ -108,7 +108,7 @@ one example each of a commit message and a branch name
 
 ### Implementation for User Story 3
 
-- [ ] T010 [P] [US3] Create `CONTRIBUTING.md` at the repo root documenting
+- [X] T010 [P] [US3] Create `CONTRIBUTING.md` at the repo root documenting
       the Conventional Commits message format, the full allowed-type list
       (matching `commitlint.config.js` from T003), the branch naming
       pattern from T007, one example commit message, and one example
@@ -122,12 +122,12 @@ one example each of a commit message and a branch name
 
 **Purpose**: Tie the feature together and prove it end-to-end
 
-- [ ] T011 [P] Add a one-line pointer to `CONTRIBUTING.md` in `README.md` so
+- [X] T011 [P] Add a one-line pointer to `CONTRIBUTING.md` in `README.md` so
       it's discoverable from the project's existing entry point
-- [ ] T012 Run every scenario in
+- [X] T012 Run every scenario in
       `specs/001-commit-convention-tooling/quickstart.md` end-to-end and
       confirm SC-001, SC-002, and SC-003 are met
-- [ ] T013 Commit this feature's own changes using a conventional commit
+- [X] T013 Commit this feature's own changes using a conventional commit
       message on a conventionally-named branch — the first real proof the
       hooks work (dogfooding)
 

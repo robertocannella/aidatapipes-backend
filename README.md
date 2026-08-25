@@ -1,6 +1,6 @@
 # node-tut
 
-
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for commit message and branch naming conventions.
 
 ## Application Setup
 

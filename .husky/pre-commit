@@ -1,0 +1,14 @@
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$branch" = "main" ]; then
+  exit 0
+fi
+
+pattern='^(feat|fix|docs|chore|refactor|test|style|perf|build|ci)/[a-z0-9-]+$'
+
+if ! echo "$branch" | grep -Eq "$pattern"; then
+  echo "Branch name '$branch' doesn't match the required pattern: type/short-description"
+  echo "Allowed types: feat, fix, docs, chore, refactor, test, style, perf, build, ci"
+  echo "Example: feat/commit-convention-tooling"
+  exit 1
+fi
