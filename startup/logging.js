@@ -4,6 +4,11 @@ import * as winston from 'winston';                             // Logging
 import 'winston-mongodb';                                       // DB Transport for Winston
 import * as db from '../startup/db.js'                          // Db
 
+// winston-mongodb needs the target db name in the connection string's path
+const loggerDbUrl = new URL(db.DATABASEURL);
+loggerDbUrl.pathname = `/${db.DATABASENAME}`;
+const LOGGER_DB_URL = loggerDbUrl.toString();
+
 export const dbLogger = winston.createLogger({
     level: 'info',
     format: winston.format.combine(
@@ -17,7 +22,7 @@ export const dbLogger = winston.createLogger({
     transports: [
         new winston.transports.MongoDB({
             level: 'info',
-            db: `mongodb://${db.DATABASEUSERNAME}:${db.DATABASEPASSWORD}@${db.DATABASEHOST}:${db.DATABASEPORT}/${db.DATABASENAME}`,
+            db: LOGGER_DB_URL,
             options: {
                 // ORIGINAL LOGGER SETTINGS ************
                 useUnifiedTopology: true,
@@ -69,7 +74,7 @@ export const logger = winston.createLogger({
         //
         new winston.transports.MongoDB({
             level: 'error',
-            db: `mongodb://${db.DATABASEUSERNAME}:${db.DATABASEPASSWORD}@${db.DATABASEHOST}:${db.DATABASEPORT}/${db.DATABASENAME}`,
+            db: LOGGER_DB_URL,
             options: { useUnifiedTopology: true, authSource: "admin" }
         }),
         new winston.transports.File({ filename: './logs/error.log', level: 'error' }),

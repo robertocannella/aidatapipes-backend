@@ -3,11 +3,7 @@
         "password": "app_password"
     },
     "db": {
-        "dbUser": "db_user",
-        "dbPass": "db_pass",
-        "dbHost": "db_host",
-        "dbPort": "db_port",
-        "dbName": "db_name"
+        "dbUrl": "DB_URL"
     },
     "jwtPrivateKey": "app_jwtPrivateKey"
 }

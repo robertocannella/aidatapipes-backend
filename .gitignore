@@ -1,4 +1,6 @@
 node_modules/
+.env
+.env.*
 quick-start-combined.log
 quick-start-error.log
 logs/
