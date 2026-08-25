@@ -1,6 +1,7 @@
 node_modules/
 .env
 .env.*
+.claude/settings.local.json
 quick-start-combined.log
 quick-start-error.log
 logs/
